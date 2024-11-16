@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/background_color">
+
+    <TextView
+        android:id="@+id/tvGreeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary_text_color"
+        android:layout_gravity="start"
+        android:paddingBottom="16dp"
+        android:text="Hello, Username" />
+
+    <TextView
+        android:id="@+id/tvLeaveRequests"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Leave Requests"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/secondary_text_color"
+        android:padding="8dp"
+        android:background="@drawable/textview_background"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnLeaveForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit Leave Request"
+        android:textSize="18sp"
+        android:textColor="@color/button_text_color"
+        android:background="@drawable/button_background"
+        android:padding="12dp"
+        android:layout_marginTop="16dp" />
+</LinearLayout>

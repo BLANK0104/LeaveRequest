@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Leave Management App</string>
+    <string name="user_id">User ID</string>
+    <string name="password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="submit_leave_request">Submit Leave Request</string>
+    <string name="leave_request_submitted">Leave Request Submitted</string>
+    <string name="network_error">Network Error</string>
+</resources>
