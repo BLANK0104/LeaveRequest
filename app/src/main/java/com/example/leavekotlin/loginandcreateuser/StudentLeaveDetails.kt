@@ -11,5 +11,12 @@ data class StudentLeaveDetails(
     val hod_status: String,
     val warden_status: String,
     val gatekeeper_status: String,
-    val studentname: String
+    val studentname: String,
+    val total_attendance: String,
+    val guardian_name: String,
+    val guardian_contact: String,
+    val guardian_email: String,
+    val academic_days_leave: String,
+    val total_days: String
+
 )

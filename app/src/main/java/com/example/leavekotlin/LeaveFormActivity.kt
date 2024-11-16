@@ -14,12 +14,14 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.example.leavekotlin.loginandcreateuser.LeaveRequest
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 class LeaveFormActivity : AppCompatActivity() {
 
     private var userId: Int = 0
     private lateinit var etStartDate: EditText
     private lateinit var etEndDate: EditText
+    private lateinit var etTotalDays: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +32,13 @@ class LeaveFormActivity : AppCompatActivity() {
 
         etStartDate = findViewById(R.id.etStartDate)
         etEndDate = findViewById(R.id.etEndDate)
+        etTotalDays = findViewById(R.id.etTotalDays)
         val etReason = findViewById<EditText>(R.id.etReason)
+        val etTotalAttendance = findViewById<EditText>(R.id.etTotalAttendance)
+        val etGuardianName = findViewById<EditText>(R.id.etGuardianName)
+        val etGuardianContact = findViewById<EditText>(R.id.etGuardianContact)
+        val etGuardianEmail = findViewById<EditText>(R.id.etGuardianEmail)
+        val etAcademicDaysLeave = findViewById<EditText>(R.id.etAcademicDaysLeave)
         val btnSubmit = findViewById<Button>(R.id.btnSubmit)
         val btnSelectStartDate = findViewById<Button>(R.id.btnStartDate)
         val btnSelectEndDate = findViewById<Button>(R.id.btnEndDate)
@@ -38,12 +46,14 @@ class LeaveFormActivity : AppCompatActivity() {
         btnSelectStartDate.setOnClickListener {
             showDatePickerDialog { date ->
                 etStartDate.setText(date)
+                calculateTotalDays()
             }
         }
 
         btnSelectEndDate.setOnClickListener {
             showDatePickerDialog { date ->
                 etEndDate.setText(date)
+                calculateTotalDays()
             }
         }
 
@@ -51,8 +61,14 @@ class LeaveFormActivity : AppCompatActivity() {
             val startDate = etStartDate.text.toString()
             val endDate = etEndDate.text.toString()
             val reason = etReason.text.toString()
+            val totalAttendance = etTotalAttendance.text.toString()
+            val guardianName = etGuardianName.text.toString()
+            val guardianContact = etGuardianContact.text.toString()
+            val guardianEmail = etGuardianEmail.text.toString()
+            val academicDaysLeave = etAcademicDaysLeave.text.toString()
+            val totalDays = etTotalDays.text.toString()
 
-            if (startDate.isEmpty() || endDate.isEmpty() || reason.isEmpty()) {
+            if (startDate.isEmpty() || endDate.isEmpty() || reason.isEmpty() || totalAttendance.isEmpty() || guardianName.isEmpty() || guardianContact.isEmpty() || guardianEmail.isEmpty() || academicDaysLeave.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -64,7 +80,7 @@ class LeaveFormActivity : AppCompatActivity() {
 
             Log.d("LeaveFormActivity", "Submitting leave request with startDate: $startDate, endDate: $endDate, reason: $reason")
 
-            val leaveRequest = LeaveRequest(userId, startDate, endDate, reason)
+            val leaveRequest = LeaveRequest(userId, startDate, endDate, reason, totalAttendance, academicDaysLeave, totalDays, guardianName, guardianContact, guardianEmail)
             RetrofitClient.apiService.submitLeaveRequest(leaveRequest).enqueue(object : Callback<LeaveRequest> {
                 override fun onResponse(call: Call<LeaveRequest>, response: Response<LeaveRequest>) {
                     if (response.isSuccessful) {
@@ -105,6 +121,9 @@ class LeaveFormActivity : AppCompatActivity() {
             onDateSet(date)
         }, year, month, day)
 
+        // Set the minimum date to today's date
+        datePickerDialog.datePicker.minDate = calendar.timeInMillis
+
         datePickerDialog.show()
     }
 
@@ -120,5 +139,26 @@ class LeaveFormActivity : AppCompatActivity() {
         }
 
         return !endCalendar.before(startCalendar)
+    }
+
+    private fun calculateTotalDays() {
+        val startDate = etStartDate.text.toString()
+        val endDate = etEndDate.text.toString()
+
+        if (startDate.isNotEmpty() && endDate.isNotEmpty()) {
+            val start = startDate.split("-").map { it.toInt() }
+            val end = endDate.split("-").map { it.toInt() }
+
+            val startCalendar = Calendar.getInstance().apply {
+                set(start[0], start[1] - 1, start[2])
+            }
+            val endCalendar = Calendar.getInstance().apply {
+                set(end[0], end[1] - 1, end[2])
+            }
+
+            val diff = endCalendar.timeInMillis - startCalendar.timeInMillis
+            val totalDays = TimeUnit.MILLISECONDS.toDays(diff).toInt() + 1
+            etTotalDays.setText(totalDays.toString())
+        }
     }
 }

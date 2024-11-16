@@ -75,6 +75,79 @@
         android:textSize="16sp"
         android:layout_marginBottom="16dp" />
 
+    <EditText
+        android:id="@+id/etTotalAttendance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Total Attendance"
+        android:inputType="number"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/primary_text_color"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/etAcademicDaysLeave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Number of Academic Days Leave"
+        android:inputType="number"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/primary_text_color"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/etTotalDays"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Total Number of Days"
+        android:inputType="number"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/primary_text_color"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        android:enabled="false" />
+
+    <EditText
+        android:id="@+id/etGuardianName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Guardian Name"
+        android:inputType="text"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/primary_text_color"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/etGuardianContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Guardian Contact Number"
+        android:inputType="phone"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/primary_text_color"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/etGuardianEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Guardian Email"
+        android:inputType="textEmailAddress"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/primary_text_color"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="match_parent"
