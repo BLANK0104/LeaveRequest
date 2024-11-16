@@ -55,8 +55,9 @@ class GatekeeperActivity : AppCompatActivity() {
         val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
         val outputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         leaveRequestsContainer.removeAllViews()
+
         for (leaveRequest in leaveRequests) {
-            if (leaveRequest.gatekeeper_status != "Pending" && leaveRequest.warden_status != "Approved" && leaveRequest.hod_status != "Aproved" && leaveRequest.faculty_status == "Approved") continue
+            if (leaveRequest.gatekeeper_status != "Pending" && leaveRequest.warden_status != "Approved" && leaveRequest.hod_status != "Approved" && leaveRequest.faculty_status == "Approved") continue
 
             val leaveRequestView = layoutInflater.inflate(R.layout.leave_request_warden_gatekeeper, leaveRequestsContainer, false)
 

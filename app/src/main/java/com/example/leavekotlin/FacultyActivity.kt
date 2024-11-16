@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import com.example.leavekotlin.loginandcreateuser.FacultyAccept
 import com.example.leavekotlin.loginandcreateuser.FacultyReject
@@ -14,6 +16,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Locale
+
 
 class FacultyActivity : AppCompatActivity() {
 
@@ -57,14 +60,21 @@ class FacultyActivity : AppCompatActivity() {
         val outputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         leaveRequestsContainer.removeAllViews()
 
-        val pendingLeaveRequests = leaveRequests.filter { it.faculty_status == "Pending" }
+        for (leaveRequest in leaveRequests) {
+            if (leaveRequest.hod_status != "Pending" && leaveRequest.faculty_status == "Approved") continue
 
-        for (leaveRequest in pendingLeaveRequests) {
             val leaveRequestView = layoutInflater.inflate(R.layout.leave_request_item, leaveRequestsContainer, false)
 
-            val tvLeaveDetails = leaveRequestView.findViewById<TextView>(R.id.tvLeaveDetails)
+            val tvStudentName = leaveRequestView.findViewById<TextView>(R.id.tvStudentName)
+            val tvLeaveDates = leaveRequestView.findViewById<TextView>(R.id.tvLeaveDates)
+            val tvReason = leaveRequestView.findViewById<TextView>(R.id.tvReason)
+            val tvTotalAttendance = leaveRequestView.findViewById<TextView>(R.id.tvTotalAttendance)
+            val tvGuardianDetails = leaveRequestView.findViewById<TextView>(R.id.tvGuardianDetails)
+            val tvAcademicDaysLeave = leaveRequestView.findViewById<TextView>(R.id.tvAcademicDaysLeave)
+            val tvTotalDays = leaveRequestView.findViewById<TextView>(R.id.tvTotalDays)
             val btnApprove = leaveRequestView.findViewById<Button>(R.id.btnApprove)
             val btnReject = leaveRequestView.findViewById<Button>(R.id.btnReject)
+            val btnCallGuardian = leaveRequestView.findViewById<Button>(R.id.btnCallGuardian)
 
             val startDate = inputDateFormat.parse(leaveRequest.start_date)
             val endDate = inputDateFormat.parse(leaveRequest.end_date)
@@ -72,22 +82,27 @@ class FacultyActivity : AppCompatActivity() {
             val formattedStartDate = outputDateFormat.format(startDate)
             val formattedEndDate = outputDateFormat.format(endDate)
 
-            tvLeaveDetails.text = "Name: ${leaveRequest.student_name}\nStart Date: $formattedStartDate\nEnd Date: $formattedEndDate\nReason: ${leaveRequest.reason}"
+            tvStudentName.text = "Name: ${leaveRequest.student_name}"
+            tvLeaveDates.text = "Start Date: $formattedStartDate\nEnd Date: $formattedEndDate"
+            tvReason.text = "Reason: ${leaveRequest.reason}"
+            tvTotalAttendance.text = "Total Attendance: ${leaveRequest.total_attendance}"
+            tvGuardianDetails.text = "Guardian Name: ${leaveRequest.guardian_name}\nGuardian Contact: ${leaveRequest.guardian_contact}\nGuardian Email: ${leaveRequest.guardian_email}"
+            tvAcademicDaysLeave.text = "Academic Days Leave: ${leaveRequest.academic_days_leave}"
+            tvTotalDays.text = "Total Days: ${leaveRequest.total_days}"
 
             btnApprove.setOnClickListener {
-                if (leaveRequest.faculty_status == "Pending") {
-                    approveLeave(leaveRequest.student_id)
-                } else {
-                    Toast.makeText(this@FacultyActivity, "Leave request is not pending", Toast.LENGTH_SHORT).show()
-                }
+                approveLeave(leaveRequest.student_id)
             }
 
             btnReject.setOnClickListener {
-                if (leaveRequest.faculty_status == "Pending") {
-                    rejectLeave(leaveRequest.student_id)
-                } else {
-                    Toast.makeText(this@FacultyActivity, "Leave request is not pending", Toast.LENGTH_SHORT).show()
+                rejectLeave(leaveRequest.student_id)
+            }
+
+            btnCallGuardian.setOnClickListener {
+                val intent = Intent(Intent.ACTION_DIAL).apply {
+                    data = Uri.parse("tel:${leaveRequest.guardian_contact}")
                 }
+                startActivity(intent)
             }
 
             leaveRequestsContainer.addView(leaveRequestView)
@@ -101,7 +116,7 @@ class FacultyActivity : AppCompatActivity() {
                     Toast.makeText(this@FacultyActivity, "Leave approved successfully", Toast.LENGTH_SHORT).show()
                     recreate() // Reload the activity
                 } else {
-                    Log.e("HodActivity", "Failed to approve leave: ${response.errorBody()?.string()}")
+                    Log.e("FacultyActivity", "Failed to approve leave: ${response.errorBody()?.string()}")
                     Toast.makeText(this@FacultyActivity, "Failed to approve leave", Toast.LENGTH_SHORT).show()
                 }
             }
