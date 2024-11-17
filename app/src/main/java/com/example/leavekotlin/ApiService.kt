@@ -13,6 +13,7 @@ import com.example.leavekotlin.models.LeaveRequestsResponse
 import com.example.leavekotlin.loginandcreateuser.HodReject
 import com.example.leavekotlin.loginandcreateuser.HodAccept
 import com.example.leavekotlin.loginandcreateuser.WardenAccept
+import com.example.leavekotlin.models.HistoryResponse
 import com.example.leavekotlin.models.LeaveRequestsResponseFaculty
 import com.example.leavekotlin.models.LeaveRequestsResponseGatekeeper
 import com.example.leavekotlin.models.LeaveRequestsResponseHod
@@ -73,5 +74,12 @@ interface ApiService {
 
     @POST("leave/fetchgatekeeper")
     fun fetchLeaveRequestToGatekeeper(@Body leaveRequest: LeaveRequest): Call<LeaveRequestsResponseGatekeeper>
+
+
+    //history
+
+    //student history
+    @GET("history/student/{id}")
+    fun getStudentHistory(@Path("id") studentId: Int): Call<HistoryResponse>
 
 }

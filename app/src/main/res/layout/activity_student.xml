@@ -38,4 +38,15 @@
         android:background="@drawable/button_background"
         android:padding="12dp"
         android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btnHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Leave History"
+        android:textSize="18sp"
+        android:textColor="@color/button_text_color"
+        android:background="@drawable/button_background"
+        android:padding="12dp"
+        android:layout_marginTop="16dp" />
 </LinearLayout>

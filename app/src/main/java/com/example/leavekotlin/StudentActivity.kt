@@ -24,6 +24,7 @@ class StudentActivity : AppCompatActivity() {
     private lateinit var tvLeaveRequests: TextView
     private lateinit var tvGreeting: TextView
     private lateinit var btnLeaveForm: Button
+    private lateinit var btnHistory: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +37,7 @@ class StudentActivity : AppCompatActivity() {
         tvLeaveRequests = findViewById(R.id.tvLeaveRequests)
         tvGreeting = findViewById(R.id.tvGreeting)
         btnLeaveForm = findViewById(R.id.btnLeaveForm)
+        btnHistory = findViewById(R.id.btnHistory)
 
         tvGreeting.text = "Hello, $username"
 
@@ -49,6 +51,12 @@ class StudentActivity : AppCompatActivity() {
             } else {
                 showAlert()
             }
+        }
+
+        btnHistory.setOnClickListener {
+            val intent = Intent(this@StudentActivity, HistoryStudentActivity::class.java)
+            intent.putExtra("USER_ID", userId)
+            startActivity(intent)
         }
     }
 
