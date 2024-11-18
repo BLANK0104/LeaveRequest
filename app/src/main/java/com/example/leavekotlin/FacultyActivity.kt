@@ -43,13 +43,13 @@ class FacultyActivity : AppCompatActivity() {
                     val leaveRequests = response.body()?.leaveRequests ?: emptyList()
                     displayLeaveRequests(leaveRequests)
                 } else {
-                    Log.e("HodActivity", "Failed to fetch leave requests: ${response.errorBody()?.string()}")
+                    Log.e("FacultyActivity", "Failed to fetch leave requests: ${response.errorBody()?.string()}")
                     Toast.makeText(this@FacultyActivity, "Failed to fetch leave requests", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<AllLeavesFetched>, t: Throwable) {
-                Log.e("HodActivity", "Network error", t)
+                Log.e("FacultyActivity", "Network error", t)
                 Toast.makeText(this@FacultyActivity, "Network error", Toast.LENGTH_SHORT).show()
             }
         })
@@ -61,7 +61,7 @@ class FacultyActivity : AppCompatActivity() {
         leaveRequestsContainer.removeAllViews()
 
         for (leaveRequest in leaveRequests) {
-            if (leaveRequest.hod_status != "Pending" && leaveRequest.faculty_status == "Approved") continue
+            if (leaveRequest.faculty_status == "Rejected" || leaveRequest.faculty_status == "Approved") continue
 
             val leaveRequestView = layoutInflater.inflate(R.layout.leave_request_item, leaveRequestsContainer, false)
 
