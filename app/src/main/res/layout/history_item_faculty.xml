@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:elevation="4dp"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/tvname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name of Student"
+            android:textSize="16sp"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Date"
+            android:textSize="16sp"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End Date"
+            android:textSize="16sp"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvReason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reason"
+            android:textSize="14sp"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvTotalAttendance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Attendance"
+            android:textSize="14sp"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvGuardianDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guardian Details"
+            android:textSize="14sp"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvAcademicDaysLeave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Academic Days Leave"
+            android:textSize="14sp"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvTotalDays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Days"
+            android:textSize="14sp"
+            android:paddingBottom="4dp" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

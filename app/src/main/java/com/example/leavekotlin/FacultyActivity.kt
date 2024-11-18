@@ -1,14 +1,18 @@
 package com.example.leavekotlin
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.leavekotlin.models.HistoryResponseFaculty
+import com.example.leavekotlin.models.Historyfaculty
 import com.example.leavekotlin.loginandcreateuser.FacultyAccept
 import com.example.leavekotlin.loginandcreateuser.FacultyReject
 import retrofit2.Call
@@ -17,21 +21,33 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-
 class FacultyActivity : AppCompatActivity() {
 
     private lateinit var leaveRequestsContainer: LinearLayout
     private lateinit var tvGreeting: TextView
+    private lateinit var btnViewPastRequests: Button
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var historyAdapter: HistoryFacultyAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_hod)
+        setContentView(R.layout.activity_faculty)
 
         leaveRequestsContainer = findViewById(R.id.leaveRequestsContainer)
         tvGreeting = findViewById(R.id.tvGreeting)
+        btnViewPastRequests = findViewById(R.id.btnViewPastRequests)
+        recyclerView = findViewById(R.id.recyclerView)
 
         val userName = intent.getStringExtra("USER_NAME")
         tvGreeting.text = "Hello, $userName"
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        historyAdapter = HistoryFacultyAdapter(emptyList())
+        recyclerView.adapter = historyAdapter
+
+        btnViewPastRequests.setOnClickListener {
+            fetchFacultyHistory()
+        }
 
         fetchAllLeaveRequests()
     }
@@ -141,6 +157,32 @@ class FacultyActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<FacultyReject>, t: Throwable) {
+                Log.e("FacultyActivity", "Network error", t)
+                Toast.makeText(this@FacultyActivity, "Network error", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun fetchFacultyHistory() {
+        RetrofitClient.apiService.getFacultyHistory().enqueue(object : Callback<HistoryResponseFaculty> {
+            override fun onResponse(call: Call<HistoryResponseFaculty>, response: Response<HistoryResponseFaculty>) {
+                if (response.isSuccessful) {
+                    val rawJson = response.body()?.history ?: emptyList()
+                    Log.d("FacultyActivity", "Raw JSON response: $rawJson")
+
+                    val history = response.body()?.history ?: emptyList()
+                    Log.d("FacultyActivity", "Fetched history: $history")
+
+                    val intent = Intent(this@FacultyActivity, HistoryActivity::class.java)
+                    intent.putExtra("HISTORY_DATA", ArrayList(history))
+                    startActivity(intent)
+                } else {
+                    Log.e("FacultyActivity", "Failed to fetch history: ${response.errorBody()?.string()}")
+                    Toast.makeText(this@FacultyActivity, "Failed to fetch history", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<HistoryResponseFaculty>, t: Throwable) {
                 Log.e("FacultyActivity", "Network error", t)
                 Toast.makeText(this@FacultyActivity, "Network error", Toast.LENGTH_SHORT).show()
             }

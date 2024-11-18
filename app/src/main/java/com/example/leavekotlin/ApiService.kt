@@ -14,6 +14,7 @@ import com.example.leavekotlin.loginandcreateuser.HodReject
 import com.example.leavekotlin.loginandcreateuser.HodAccept
 import com.example.leavekotlin.loginandcreateuser.WardenAccept
 import com.example.leavekotlin.models.HistoryResponse
+import com.example.leavekotlin.models.HistoryResponseFaculty
 import com.example.leavekotlin.models.LeaveRequestsResponseFaculty
 import com.example.leavekotlin.models.LeaveRequestsResponseGatekeeper
 import com.example.leavekotlin.models.LeaveRequestsResponseHod
@@ -81,5 +82,17 @@ interface ApiService {
     //student history
     @GET("history/student/{id}")
     fun getStudentHistory(@Path("id") studentId: Int): Call<HistoryResponse>
+
+    @POST("history/faculty")
+    fun getFacultyHistory(): Call<HistoryResponseFaculty>
+
+//    @POST("history/hod")
+//    fun getFacultyHistory(@Body leaveRequest: LeaveRequest): Call<HistoryResponseHod>
+//
+//    @POST("history/warden")
+//    fun getFacultyHistory(@Body leaveRequest: LeaveRequest): Call<HistoryResponseWarden>
+//
+//    @POST("history/gatekeeper")
+//    fun getFacultyHistory(@Body leaveRequest: LeaveRequest): Call<HistoryResponseGatekeeper>
 
 }
